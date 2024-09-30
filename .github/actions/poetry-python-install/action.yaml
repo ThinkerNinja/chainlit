@@ -1,30 +1,26 @@
-name: 'Install Python, poetry and dependencies.'
-description: 'Install Python, Poetry and poetry dependencies using cache'
+name: Install Python, poetry and dependencies.
+description: Install Python, Poetry and poetry dependencies using cache
 
 inputs:
   python-version:
-    description: 'Python version'
+    description: Python version
     required: true
   poetry-version:
-    description: 'Poetry version'
+    description: Poetry version
     required: true
   poetry-working-directory:
-    description: 'Working directory for poetry command.'
+    description: Working directory for poetry command.
     required: false
-    default: '.'
+    default: .
   poetry-install-args:
-    description: 'Extra arguments for poetry install, e.g. --with tests.'
+    description: Extra arguments for poetry install, e.g. --with tests.
     required: false
-
-defaults:
-  run:
-    shell: bash
 
 runs:
-  using: 'composite'
+  using: composite
   steps:
     - name: Cache poetry install
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ~/.local
         key: poetry-${{ runner.os }}-${{ inputs.poetry-version }}-0
@@ -33,7 +29,7 @@ runs:
       shell: bash
     - name: Set up Python ${{ inputs.python-version }}
       id: setup_python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
         cache: poetry
